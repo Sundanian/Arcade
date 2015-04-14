@@ -26,7 +26,7 @@ namespace AstroidsArcadeClone
         private float fps = 10;
         private Dictionary<string, Animation> animations = new Dictionary<string,Animation>();
 
-        public SpriteObject(Vector2 position, int frames)
+        public SpriteObject(Vector2 position)
         {
             this.position = position;
         }
@@ -57,7 +57,7 @@ namespace AstroidsArcadeClone
                 currentIndex = 0;
             }
         }
-        private void CreateAnimation(string name, int frames, int yPos, int xStartFrame, int width, int height, Vector2 offset, float fps)
+        protected void CreateAnimation(string name, int frames, int yPos, int xStartFrame, int width, int height, Vector2 offset, float fps)
         {
             animations.Add(name, new Animation(frames, yPos, xStartFrame, width, height, offset, fps));
         }

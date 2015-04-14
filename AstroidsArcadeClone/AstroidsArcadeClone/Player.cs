@@ -19,7 +19,7 @@ namespace AstroidsArcadeClone
             get { return instance; }
         }
 
-        private Player(Vector2 position, int frames) : base(position, frames)
+        private Player(Vector2 position) : base(position)
         {
 
         }

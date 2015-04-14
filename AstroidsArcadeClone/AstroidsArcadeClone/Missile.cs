@@ -8,7 +8,7 @@ namespace AstroidsArcadeClone
 {
     class Missile : SpriteObject
     {
-        public Missile(Vector2 position, int frames) : base(position, frames)
+        public Missile(Vector2 position) : base(position)
         {
 
         }

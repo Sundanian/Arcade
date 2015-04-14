@@ -25,9 +25,18 @@ namespace AstroidsArcadeClone
             get { return fps; }
         }
 
-        public Animation(int frames, int yPos, int xStartFrame, int width, Vector2 offset, float fps)
+        public Animation(int frames, int yPos, int xStartFrame, int width, int height, Vector2 offset, float fps)
         {
+            rectangles = new Rectangle[frames];
 
+            for (int i = 0; i < frames; i++)
+            {
+                rectangles[i] = new Rectangle((i + xStartFrame) * width, yPos, width, height);
+            }
+
+            this.fps = fps;
+
+            this.offset = offset;
         }
     }
 }

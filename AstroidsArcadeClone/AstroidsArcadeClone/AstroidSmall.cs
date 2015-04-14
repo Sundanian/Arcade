@@ -7,5 +7,17 @@ namespace AstroidsArcadeClone
 {
     class AstroidSmall
     {
+        private Enemy enemy;
+        public Enemy GetEnemy
+        {
+            get { return enemy; }
+        }
+
+        public AstroidSmall()
+        {
+            enemy = new Enemy();
+        }
+
+        //Build Parts
     }
 }

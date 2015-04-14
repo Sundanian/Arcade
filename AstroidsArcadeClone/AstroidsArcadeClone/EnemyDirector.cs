@@ -5,7 +5,24 @@ using System.Text;
 
 namespace AstroidsArcadeClone
 {
-    interface EnemyDirector
+    class EnemyDirector
     {
+        private readonly IEnemyBuilder enemyBuilder;
+
+        public Enemy GetEnemy
+        {
+            get { return enemyBuilder.GetEnemy; }
+        }
+
+        public EnemyDirector(IEnemyBuilder enemyBuilder)
+        {
+            this.enemyBuilder = enemyBuilder;
+        }
+
+        public void BuildEnemy()
+        {
+            //enemyBuilder.BuildPart();
+            //osv......
+        }
     }
 }

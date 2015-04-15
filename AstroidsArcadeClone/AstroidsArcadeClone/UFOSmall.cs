@@ -23,7 +23,7 @@ namespace AstroidsArcadeClone
 
         public void BuildTexture(ContentManager content)
         {
-            this.enemy.Texture = content.Load<Texture2D>(@"");
+            this.enemy.Texture = content.Load<Texture2D>(@"Enemy");
         }
         public void BuildScale()
         {

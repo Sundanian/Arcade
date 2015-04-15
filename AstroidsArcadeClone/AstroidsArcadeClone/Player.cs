@@ -25,7 +25,7 @@ namespace AstroidsArcadeClone
         }
         public override void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>(@"");
+            texture = content.Load<Texture2D>(@"Ship");
 
             base.LoadContent(content);
         }

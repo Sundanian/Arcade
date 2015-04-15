@@ -15,7 +15,7 @@ namespace AstroidsArcadeClone
         protected Vector2 position;
         private Vector2 origin;
         private float layer;
-        private float scale;
+        protected float scale;
         private Color color;
         private SpriteEffects effect;
         protected Vector2 velocity;
@@ -25,6 +25,12 @@ namespace AstroidsArcadeClone
         private float timeElapsed;
         private float fps = 10;
         private Dictionary<string, Animation> animations = new Dictionary<string,Animation>();
+        
+        public Vector2 Position
+        {
+            get { return position; }
+            set { position = value; }
+        }
 
         public SpriteObject(Vector2 position)
         {

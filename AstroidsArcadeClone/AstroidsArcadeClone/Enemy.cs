@@ -9,17 +9,38 @@ namespace AstroidsArcadeClone
 {
     class Enemy : SpriteObject
     {
-        private string textureString;
-        public Enemy(Vector2 position, Texture2D texture, Vector2 velocity, Rectangle[] rectangles) : base(position)
+        private bool weapon;
+
+        public bool Weapon
         {
-            this.texture = texture;
-            this.velocity = velocity;
-            this.velocity *= speed;
+            get { return weapon; }
+            set { weapon = value; }
+        }
+        public Texture2D Texture
+        {
+            get { return texture; }
+            set { texture = value; }
+        }
+        public Vector2 Velocity
+        {
+            get { return velocity; }
+            set { velocity = value; }
+        }
+        public float Scale
+        {
+            get { return scale; }
+            set { scale = value; }
+        }
+
+        public Enemy(Vector2 position) : base(position)
+        {
+
         }
         public override void Update(GameTime gametime)
         {
             float deltatime = (float)gametime.ElapsedGameTime.TotalSeconds;
             position += (velocity * deltatime);
+            velocity *= speed;
 
             base.Update(gametime);
         }

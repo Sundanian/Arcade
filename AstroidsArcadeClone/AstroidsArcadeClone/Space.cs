@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace AstroidsArcadeClone
 {
@@ -11,7 +12,6 @@ namespace AstroidsArcadeClone
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
         public Space()
             : base()
         {
@@ -64,6 +64,13 @@ namespace AstroidsArcadeClone
                 Exit();
 
             // TODO: Add your update logic here
+
+            //Builder en enemy som er en AstroidBig
+            Random r = new Random();
+            Enemy enemy;
+            EnemyDirector director = new EnemyDirector(new AstroidBig(), Content, new Vector2(r.Next(0,Window.ClientBounds.Width),r.Next(0,Window.ClientBounds.Height)));
+            director.BuildEnemy();
+            enemy = director.GetEnemy;
 
             base.Update(gameTime);
         }

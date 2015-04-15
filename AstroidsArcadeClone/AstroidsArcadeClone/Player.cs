@@ -57,7 +57,7 @@ namespace AstroidsArcadeClone
 
             float deltatime = (float)gametime.ElapsedGameTime.TotalSeconds;
 
-            position += (velocity * deltatime);
+            Position += (velocity * deltatime);
             base.Update(gametime);
         }
     }

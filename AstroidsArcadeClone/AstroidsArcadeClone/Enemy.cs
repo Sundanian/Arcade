@@ -10,6 +10,9 @@ namespace AstroidsArcadeClone
     class Enemy : SpriteObject
     {
         private bool weapon;
+        private int velocityX;
+        private int velocityY;
+        private Random r = new Random();
 
         public bool Weapon
         {
@@ -33,14 +36,18 @@ namespace AstroidsArcadeClone
         }
         public override void Update(GameTime gametime)
         {
+            velocity = Vector2.Zero;
+            velocity += new Vector2(velocityX,velocityY);
+            velocity *= speed;
             float deltatime = (float)gametime.ElapsedGameTime.TotalSeconds;
             position += (velocity * deltatime);
-            velocity *= speed;
 
             base.Update(gametime);
         }
         public override void LoadContent(Microsoft.Xna.Framework.Content.ContentManager content)
         {
+            velocityX = r.Next(-1, 2);
+            velocityY = r.Next(-1, 2);
             CreateAnimation("Idle", 1, 0, 0, Texture.Width, Texture.Height, Vector2.Zero, 1);
             PlayAnimation("Idle");
 

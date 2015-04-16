@@ -25,6 +25,7 @@ namespace AstroidsArcadeClone
         }
         public override void LoadContent(ContentManager content)
         {
+            speed = 100;
             Texture = content.Load<Texture2D>(@"Ship");
 
             CreateAnimation("Idle", 1, 0, 2, 128, 128, Vector2.Zero, 1);

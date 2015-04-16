@@ -28,8 +28,8 @@ namespace AstroidsArcadeClone
             speed = 100;
             Texture = content.Load<Texture2D>(@"Ship");
 
-            CreateAnimation("Idle", 1, 0, 2, 128, 128, Vector2.Zero, 1);
-            CreateAnimation("Thrust", 2, 0, 1, 128, 128, Vector2.Zero, 2);
+            CreateAnimation("Idle", 1, 0, 2, 128, 128, Vector2.Zero, 1, texture);
+            CreateAnimation("Thrust", 2, 0, 1, 128, 128, Vector2.Zero, 2, texture);
             PlayAnimation("Idle");
 
             base.LoadContent(content);
@@ -65,9 +65,6 @@ namespace AstroidsArcadeClone
 
             Position += (velocity * deltatime);
             base.Update(gametime);
-        }
-        protected override void HandleCollision()
-        {
         }
     }
 }

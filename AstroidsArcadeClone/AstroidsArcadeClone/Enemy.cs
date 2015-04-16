@@ -48,13 +48,10 @@ namespace AstroidsArcadeClone
         {
             velocityX = r.Next(-1, 2);
             velocityY = r.Next(-1, 2);
-            CreateAnimation("Idle", 1, 0, 0, Texture.Width, Texture.Height, Vector2.Zero, 1);
+            CreateAnimation("Idle", 1, 0, 0, Texture.Width, Texture.Height, Vector2.Zero, 1, texture);
             PlayAnimation("Idle");
 
             base.LoadContent(content);
-        }
-        protected override void HandleCollision()
-        {
         }
     }
 }

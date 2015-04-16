@@ -24,9 +24,10 @@ namespace AstroidsArcadeClone
         private int currentIndex;
         private float timeElapsed;
         private float fps = 10;
-        private Dictionary<string, Animation> animations = new Dictionary<string,Animation>();
+        private Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
         private Vector2 offset;
         private Texture2D boxTexture;
+        private string name;
 
         public Texture2D Texture
         {
@@ -88,16 +89,53 @@ namespace AstroidsArcadeClone
             }
             HandleCollision();
         }
-        protected void CreateAnimation(string name, int frames, int yPos, int xStartFrame, int width, int height, Vector2 offset, float fps)
+        protected void CreateAnimation(string name, int frames, int yPos, int xStartFrame, int width, int height, Vector2 offset, float fps, Texture2D texture)
         {
-            animations.Add(name, new Animation(frames, yPos, xStartFrame, width, height, offset, fps));
+            animations.Add(name, new Animation(frames, yPos, xStartFrame, width, height, offset, fps, texture));
         }
         protected void PlayAnimation(string name)
         {
+            this.name = name;
             rectangles = animations[name].Rectangles;
             offset = animations[name].Offset;
             fps = animations[name].Fps;
         }
-        protected abstract void HandleCollision();
+        protected bool PixelCollision(SpriteObject other)
+        {
+            int top = Math.Max(this.CollisionRect.Top, other.CollisionRect.Top);
+            int bottom = Math.Min(this.CollisionRect.Bottom, other.CollisionRect.Bottom);
+            int left = Math.Max(this.CollisionRect.Left, other.CollisionRect.Left);
+            int right = Math.Min(this.CollisionRect.Right, other.CollisionRect.Right);
+
+            for (int y = top; y < bottom; y++)
+            {
+                for (int x = left; x < right; x++)
+                {
+                    Color colorA = animations[name].Colors[currentIndex]
+                    [(x - CollisionRect.Left) + (y - CollisionRect.Top) * CollisionRect.Width];
+                    Color colorB = animations[other.name].Colors[other.currentIndex]
+                    [(x - CollisionRect.Left) + (y - CollisionRect.Top) * CollisionRect.Width];
+
+                    if (colorA.A !=  0 && colorB.A != 0)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        protected virtual void HandleCollision()
+        {
+            foreach (SpriteObject obj in Space.Objects)
+            {
+                if (obj != this && obj.CollisionRect.Intersects(this.CollisionRect))
+                {
+                    if (PixelCollision(obj))
+                    {
+                        //PixelCollision
+                    } 
+                }
+            }
+        }
     }
 }

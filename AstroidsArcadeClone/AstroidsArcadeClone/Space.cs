@@ -14,7 +14,6 @@ namespace AstroidsArcadeClone
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Random r =  new Random();
-        Player player;
         private static List<SpriteObject> objects = new List<SpriteObject>();
         private static List<SpriteObject> removeObjects = new List<SpriteObject>();
         private static List<SpriteObject> addObjects = new List<SpriteObject>();
@@ -73,8 +72,7 @@ namespace AstroidsArcadeClone
             enemy = director.GetEnemy;
             addObjects.Add(enemy);
 
-            player = new Player(Vector2.Zero);
-            addObjects.Add(player);
+            addObjects.Add(Player.Instance);
 
             foreach (SpriteObject obj in addObjects)
             {

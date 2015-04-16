@@ -12,14 +12,21 @@ namespace AstroidsArcadeClone
     class Player : SpriteObject
     {
         public int lives = 3;
-        private Player instance = null;
+        static Player instance;
 
-        public Player Instance
+        public static Player Instance
         {
-            get { return instance; }
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new Player(Vector2.Zero);
+                }
+                return instance;
+            }
         }
 
-        public Player(Vector2 position) : base(position)
+        private Player(Vector2 position) : base(position)
         {
             
         }

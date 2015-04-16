@@ -16,11 +16,6 @@ namespace AstroidsArcadeClone
             get { return weapon; }
             set { weapon = value; }
         }
-        public Texture2D Texture
-        {
-            get { return texture; }
-            set { texture = value; }
-        }
         public Vector2 Velocity
         {
             get { return velocity; }
@@ -46,7 +41,7 @@ namespace AstroidsArcadeClone
         }
         public override void LoadContent(Microsoft.Xna.Framework.Content.ContentManager content)
         {
-            CreateAnimation("Idle", 1, 0, 0, texture.Width, texture.Height, Vector2.Zero, 1);
+            CreateAnimation("Idle", 1, 0, 0, Texture.Width, Texture.Height, Vector2.Zero, 1);
             PlayAnimation("Idle");
 
             base.LoadContent(content);

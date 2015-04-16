@@ -104,7 +104,7 @@ namespace AstroidsArcadeClone
 
             // TODO: Add your update logic here
 
-            //Builder en enemy som er en AstroidBig
+            //Holder styr på listerne
             foreach (SpriteObject obj in removeObjects)
             {
                 objects.Remove(obj);
@@ -118,6 +118,27 @@ namespace AstroidsArcadeClone
             foreach (SpriteObject obj in objects)
             {
                 obj.Update(gameTime);
+            }
+
+            //ScreenWrap
+            foreach (SpriteObject obj in objects)
+            {
+                if (obj.Position.X  + obj.Texture.Width < 0)
+                {
+                    obj.Position = new Vector2(Window.ClientBounds.Width,obj.Position.Y);
+                }
+                if (obj.Position.Y + obj.Texture.Height < 0)
+                {
+                    obj.Position = new Vector2(obj.Position.X, Window.ClientBounds.Height);
+                }
+                if (obj.Position.X > Window.ClientBounds.Width)
+                {
+                    obj.Position = new Vector2(0 - obj.Texture.Width, obj.Position.Y);
+                }
+                if (obj.Position.Y > Window.ClientBounds.Height)
+                {
+                    obj.Position = new Vector2(obj.Position.X, 0 - obj.Texture.Height);
+                }
             }
 
             base.Update(gameTime);

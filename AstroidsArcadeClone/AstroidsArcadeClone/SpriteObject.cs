@@ -28,6 +28,11 @@ namespace AstroidsArcadeClone
         private Vector2 offset;
         private Texture2D boxTexture;
 
+        public Texture2D Texture
+        {
+            get { return texture; }
+            set { texture = value; }
+        }
         public Rectangle CollisionRect
         {
             get

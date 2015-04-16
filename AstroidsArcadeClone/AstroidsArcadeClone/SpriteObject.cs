@@ -20,7 +20,7 @@ namespace AstroidsArcadeClone
         private SpriteEffects effect;
         protected Vector2 velocity;
         protected float speed = 100;
-        private int frames;
+        private int frames = 2;
         private int currentIndex;
         private float timeElapsed;
         private float fps = 10;
@@ -66,6 +66,10 @@ namespace AstroidsArcadeClone
         protected void CreateAnimation(string name, int frames, int yPos, int xStartFrame, int width, int height, Vector2 offset, float fps)
         {
             animations.Add(name, new Animation(frames, yPos, xStartFrame, width, height, offset, fps));
+        }
+        protected void PlayAnimation(string name)
+        {
+            rectangles = animations[name].Rectangles;
         }
     }
 }

@@ -12,6 +12,8 @@ namespace AstroidsArcadeClone
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        Player player = new Player(new Vector2(370, 200));
         public Space()
             : base()
         {
@@ -41,6 +43,8 @@ namespace AstroidsArcadeClone
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            player.LoadContent(Content);
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -63,6 +67,8 @@ namespace AstroidsArcadeClone
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            player.Update(gameTime);
+
             // TODO: Add your update logic here
 
             //Builder en enemy som er en AstroidBig
@@ -83,6 +89,11 @@ namespace AstroidsArcadeClone
         {
             GraphicsDevice.Clear(Color.Black);
 
+            spriteBatch.Begin();
+
+            player.Draw(spriteBatch);
+
+            spriteBatch.End();
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);

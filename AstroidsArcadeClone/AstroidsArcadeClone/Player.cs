@@ -19,13 +19,17 @@ namespace AstroidsArcadeClone
             get { return instance; }
         }
 
-        private Player(Vector2 position) : base(position)
+        public Player(Vector2 position) : base(position)
         {
-
+            
         }
         public override void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>(@"Ship");
+
+            CreateAnimation("Idle", 1, 128, 2, 128, 128, Vector2.Zero, 10);
+            CreateAnimation("Thrust", 2, 128, 1, 128, 128, Vector2.Zero, 30);
+            PlayAnimation("Idle");
 
             base.LoadContent(content);
         }
@@ -34,6 +38,7 @@ namespace AstroidsArcadeClone
             if (keyState.IsKeyDown(Keys.Up))
             {
                 //Thrust
+                PlayAnimation("Thrust");
                 velocity += new Vector2(0, -1);
             }
             if (keyState.IsKeyDown(Keys.Left))

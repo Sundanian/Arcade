@@ -8,7 +8,7 @@ using System.Text;
 
 namespace AstroidsArcadeClone
 {
-    abstract class SpriteObject
+    public abstract class SpriteObject
     {
         protected Texture2D texture;
         private Rectangle[] rectangles;
@@ -18,9 +18,9 @@ namespace AstroidsArcadeClone
         protected float scale;
         private Color color = Color.White;
         private SpriteEffects effect = SpriteEffects.None;
+        private float rotation = 0;
         protected Vector2 velocity;
         protected float speed = 100;
-        private int frames = 2;
         private int currentIndex;
         private float timeElapsed;
         private float fps = 10;
@@ -40,18 +40,11 @@ namespace AstroidsArcadeClone
         }
         public virtual void LoadContent(ContentManager content)
         {
-            int width = texture.Width / frames;
-
-            rectangles = new Rectangle[frames];
-
-            for (int i = 0; i < frames; i++)
-            {
-                rectangles[i] = new Rectangle(i * width, 0, width, texture.Height);
-            }
+            
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, position + offset, rectangles[currentIndex], color, 0, origin, scale, effect, layer);
+            spriteBatch.Draw(texture, position + offset, rectangles[currentIndex], color, rotation, origin, scale, effect, layer);
         }
         public virtual void Update(GameTime gametime)
         {

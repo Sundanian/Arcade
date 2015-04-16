@@ -46,8 +46,9 @@ namespace AstroidsArcadeClone
         }
         public override void LoadContent(Microsoft.Xna.Framework.Content.ContentManager content)
         {
-            CreateAnimation("Idle", 1, 1, 1, texture.Width, texture.Height, Vector2.Zero, 1);
+            CreateAnimation("Idle", 1, 0, 0, texture.Width, texture.Height, Vector2.Zero, 1);
             PlayAnimation("Idle");
+
             base.LoadContent(content);
         }
     }

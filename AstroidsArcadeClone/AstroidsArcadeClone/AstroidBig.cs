@@ -19,7 +19,7 @@ namespace AstroidsArcadeClone
         public AstroidBig()
         {
             enemy = new Enemy(Vector2.Zero);
-        }
+       }
 
         public void BuildTexture(ContentManager content)
         {

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace AstroidsArcadeClone
 {
@@ -12,9 +13,28 @@ namespace AstroidsArcadeClone
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Enemy enemy;
         Random r =  new Random();
-		Player player = new Player(new Vector22(370, 200));
+        Player player;
+        private static List<SpriteObject> objects = new List<SpriteObject>();
+        private static List<SpriteObject> removeObjects = new List<SpriteObject>();
+        private static List<SpriteObject> addObjects = new List<SpriteObject>();
+
+        public static List<SpriteObject> AddObjects
+        {
+            get { return addObjects; }
+            set { addObjects = value; }
+        }
+        public static List<SpriteObject> Objects
+        {
+            get { return objects; }
+            set { objects = value; }
+        }
+        public static List<SpriteObject> RemoveObjects
+        {
+            get { return removeObjects; }
+            set { removeObjects = value; }
+        }
+
         public Space()
             : base()
         {
@@ -47,10 +67,19 @@ namespace AstroidsArcadeClone
             
 
             // TODO: use this.Content to load your game content here
+            Enemy enemy;
             EnemyDirector director = new EnemyDirector(new AstroidBig(), Content, new Vector2(r.Next(0, Window.ClientBounds.Width), r.Next(0, Window.ClientBounds.Height)));
             director.BuildEnemy();
             enemy = director.GetEnemy;
-			player.LoadContent(Content);
+            addObjects.Add(enemy);
+
+            player = new Player(Vector2.Zero);
+            addObjects.Add(player);
+
+            foreach (SpriteObject obj in addObjects)
+            {
+                obj.LoadContent(Content);
+            }
         }
 
         /// <summary>
@@ -72,12 +101,24 @@ namespace AstroidsArcadeClone
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            player.Update(gameTime);
 
             // TODO: Add your update logic here
 
             //Builder en enemy som er en AstroidBig
-            enemy.Update(gameTime);
+            foreach (SpriteObject obj in removeObjects)
+            {
+                objects.Remove(obj);
+            }
+            foreach (SpriteObject obj in addObjects)
+            {
+                objects.Add(obj);
+            }
+            removeObjects.Clear();
+            addObjects.Clear();
+            foreach (SpriteObject obj in objects)
+            {
+                obj.Update(gameTime);
+            }
 
             base.Update(gameTime);
         }
@@ -93,7 +134,10 @@ namespace AstroidsArcadeClone
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            player.Draw(spriteBatch);
+            foreach (SpriteObject obj in objects)
+            {
+                obj.Draw(spriteBatch);
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);

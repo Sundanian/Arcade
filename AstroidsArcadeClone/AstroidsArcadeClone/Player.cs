@@ -27,8 +27,8 @@ namespace AstroidsArcadeClone
         {
             texture = content.Load<Texture2D>(@"Ship");
 
-            CreateAnimation("Idle", 1, 128, 2, 128, 128, Vector2.Zero, 10);
-            CreateAnimation("Thrust", 2, 128, 1, 128, 128, Vector2.Zero, 30);
+            CreateAnimation("Idle", 1, 0, 2, 128, 128, Vector2.Zero, 1);
+            CreateAnimation("Thrust", 2, 0, 1, 128, 128, Vector2.Zero, 2);
             PlayAnimation("Idle");
 
             base.LoadContent(content);

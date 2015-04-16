@@ -59,6 +59,10 @@ namespace AstroidsArcadeClone
                 //Rotate right
 
             }
+            if (keyState.IsKeyDown(Keys.Space))
+            {
+                Space.AddObjects.Add(new Missile(position));
+            }
         }
         public override void Update(GameTime gametime)
         {

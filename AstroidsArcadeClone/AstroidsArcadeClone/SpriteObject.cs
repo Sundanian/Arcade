@@ -126,16 +126,7 @@ namespace AstroidsArcadeClone
         }
         protected virtual void HandleCollision()
         {
-            foreach (SpriteObject obj in Space.Objects)
-            {
-                if (obj != this && obj.CollisionRect.Intersects(this.CollisionRect))
-                {
-                    if (PixelCollision(obj))
-                    {
-                        //PixelCollision
-                    } 
-                }
-            }
+            
         }
     }
 }

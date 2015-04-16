@@ -17,6 +17,6 @@ namespace AstroidsArcadeClone
         void BuildScale();
         void BuildWeapon();
         void BuildPosition(Vector2 position);
-
+        void BuildType();
     }
 }

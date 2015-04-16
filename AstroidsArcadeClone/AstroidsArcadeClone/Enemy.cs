@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -7,13 +8,20 @@ using System.Text;
 
 namespace AstroidsArcadeClone
 {
+    enum EnemyType { AstroidBig, AstroidNormal, AstroidSmall, UFONormal, UFOSmall };
     class Enemy : SpriteObject
     {
         private bool weapon;
         private int velocityX;
         private int velocityY;
         private Random r = new Random();
+        private EnemyType type;
 
+        public EnemyType Type
+        {
+            get { return type; }
+            set { type = value; }
+        }
         public bool Weapon
         {
             get { return weapon; }
@@ -30,14 +38,15 @@ namespace AstroidsArcadeClone
             set { scale = value; }
         }
 
-        public Enemy(Vector2 position) : base(position)
+        public Enemy(Vector2 position)
+            : base(position)
         {
 
         }
         public override void Update(GameTime gametime)
         {
             velocity = Vector2.Zero;
-            velocity += new Vector2(velocityX,velocityY);
+            velocity += new Vector2(velocityX, velocityY);
             velocity *= speed;
             float deltatime = (float)gametime.ElapsedGameTime.TotalSeconds;
             position += (velocity * deltatime);
@@ -52,6 +61,38 @@ namespace AstroidsArcadeClone
             PlayAnimation("Idle");
 
             base.LoadContent(content);
+        }
+        public void DeathSpawn()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (this.type == EnemyType.AstroidBig)
+                {
+                    EnemyDirector director = new EnemyDirector(new AstroidNormal(), Space.ContentMan, position);
+                    director.BuildEnemy();
+                    Space.AddObjects.Add(director.GetEnemy);
+                }
+                if (this.type == EnemyType.AstroidNormal)
+                {
+                    EnemyDirector director = new EnemyDirector(new AstroidSmall(), Space.ContentMan, position);
+                    director.BuildEnemy();
+                    Space.AddObjects.Add(director.GetEnemy);
+                }
+            }
+        }
+        protected override void HandleCollision()
+        {
+            foreach (SpriteObject obj in Space.Objects)
+            {
+                if (obj is Missile && obj.CollisionRect.Intersects(this.CollisionRect))
+                {
+                    if (PixelCollision(obj))
+                    {
+                        DeathSpawn();
+                        Space.RemoveObjects.Add(this);
+                    }
+                }
+            }
         }
     }
 }

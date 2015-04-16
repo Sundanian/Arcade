@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -13,11 +14,17 @@ namespace AstroidsArcadeClone
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Random r =  new Random();
+        static Random r =  new Random();
         private static List<SpriteObject> objects = new List<SpriteObject>();
         private static List<SpriteObject> removeObjects = new List<SpriteObject>();
         private static List<SpriteObject> addObjects = new List<SpriteObject>();
+        private static ContentManager contentMan;
 
+        public static ContentManager ContentMan
+        {
+            get { return contentMan; }
+            set { contentMan = value; }
+        }
         public static List<SpriteObject> AddObjects
         {
             get { return addObjects; }
@@ -39,6 +46,8 @@ namespace AstroidsArcadeClone
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            Window.AllowUserResizing = true;
+            contentMan = Content;
         }
 
         /// <summary>
@@ -66,11 +75,9 @@ namespace AstroidsArcadeClone
             
 
             // TODO: use this.Content to load your game content here
-            Enemy enemy;
             EnemyDirector director = new EnemyDirector(new AstroidBig(), Content, new Vector2(r.Next(0, Window.ClientBounds.Width), r.Next(0, Window.ClientBounds.Height)));
             director.BuildEnemy();
-            enemy = director.GetEnemy;
-            addObjects.Add(enemy);
+            addObjects.Add(director.GetEnemy);
 
             addObjects.Add(Player.Instance);
 

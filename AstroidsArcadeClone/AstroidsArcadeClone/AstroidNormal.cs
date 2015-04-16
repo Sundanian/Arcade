@@ -37,5 +37,9 @@ namespace AstroidsArcadeClone
         {
             this.enemy.Position = position;
         }
+        public void BuildType()
+        {
+            this.enemy.Type = EnemyType.AstroidNormal;
+        }
     }
 }

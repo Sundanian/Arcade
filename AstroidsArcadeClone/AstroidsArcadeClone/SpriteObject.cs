@@ -20,7 +20,7 @@ namespace AstroidsArcadeClone
         private SpriteEffects effect = SpriteEffects.None;
         protected Vector2 velocity;
         protected float speed = 100;
-        private int frames = 0;
+        private int frames = 2;
         private int currentIndex;
         private float timeElapsed;
         private float fps = 10;

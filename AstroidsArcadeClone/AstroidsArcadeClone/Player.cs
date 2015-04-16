@@ -65,5 +65,8 @@ namespace AstroidsArcadeClone
             Position += (velocity * deltatime);
             base.Update(gametime);
         }
+        protected override void HandleCollision()
+        {
+        }
     }
 }

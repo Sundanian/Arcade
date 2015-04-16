@@ -51,5 +51,8 @@ namespace AstroidsArcadeClone
 
             base.LoadContent(content);
         }
+        protected override void HandleCollision()
+        {
+        }
     }
 }

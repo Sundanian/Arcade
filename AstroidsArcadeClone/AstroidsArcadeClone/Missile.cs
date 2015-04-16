@@ -12,5 +12,8 @@ namespace AstroidsArcadeClone
         {
 
         }
+        protected override void HandleCollision()
+        {
+        }
     }
 }

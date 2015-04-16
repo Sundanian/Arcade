@@ -26,8 +26,20 @@ namespace AstroidsArcadeClone
         private float fps = 10;
         private Dictionary<string, Animation> animations = new Dictionary<string,Animation>();
         private Vector2 offset;
+        private Texture2D boxTexture;
 
-
+        public Rectangle CollisionRect
+        {
+            get
+            {
+                return new Rectangle
+                (
+                    (int)(position.X + offset.X),
+                    (int)(position.Y + offset.Y),
+                    rectangles[0].Width, rectangles[0].Height
+                );
+            }
+        }
         public Vector2 Position
         {
             get { return position; }
@@ -40,11 +52,23 @@ namespace AstroidsArcadeClone
         }
         public virtual void LoadContent(ContentManager content)
         {
-            
+            boxTexture = content.Load<Texture2D>(@"CollisionTexture");
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, position + offset, rectangles[currentIndex], color, rotation, origin, scale, effect, layer);
+
+#if DEBUG
+            Rectangle topLine = new Rectangle(CollisionRect.X, CollisionRect.Y, CollisionRect.Width, 1);
+            Rectangle bottomLine = new Rectangle(CollisionRect.X, CollisionRect.Y + CollisionRect.Height, CollisionRect.Width, 1);
+            Rectangle rightLine = new Rectangle(CollisionRect.X + CollisionRect.Width, CollisionRect.Y, 1, CollisionRect.Height);
+            Rectangle leftLine = new Rectangle(CollisionRect.X, CollisionRect.Y, 1, CollisionRect.Height);
+
+            spriteBatch.Draw(boxTexture, topLine, Color.Red);
+            spriteBatch.Draw(boxTexture, bottomLine, Color.Red);
+            spriteBatch.Draw(boxTexture, rightLine, Color.Red);
+            spriteBatch.Draw(boxTexture, leftLine, Color.Red);
+#endif
         }
         public virtual void Update(GameTime gametime)
         {
@@ -57,6 +81,7 @@ namespace AstroidsArcadeClone
                 timeElapsed = 0;
                 currentIndex = 0;
             }
+            HandleCollision();
         }
         protected void CreateAnimation(string name, int frames, int yPos, int xStartFrame, int width, int height, Vector2 offset, float fps)
         {
@@ -68,5 +93,6 @@ namespace AstroidsArcadeClone
             offset = animations[name].Offset;
             fps = animations[name].Fps;
         }
+        protected abstract void HandleCollision();
     }
 }

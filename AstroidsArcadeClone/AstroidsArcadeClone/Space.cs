@@ -12,6 +12,8 @@ namespace AstroidsArcadeClone
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Enemy enemy;
+        Random r =  new Random();
         public Space()
             : base()
         {
@@ -42,6 +44,9 @@ namespace AstroidsArcadeClone
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            EnemyDirector director = new EnemyDirector(new AstroidBig(), Content, new Vector2(r.Next(0, Window.ClientBounds.Width), r.Next(0, Window.ClientBounds.Height)));
+            director.BuildEnemy();
+            enemy = director.GetEnemy;
         }
 
         /// <summary>
@@ -66,11 +71,7 @@ namespace AstroidsArcadeClone
             // TODO: Add your update logic here
 
             //Builder en enemy som er en AstroidBig
-            Random r = new Random();
-            Enemy enemy;
-            EnemyDirector director = new EnemyDirector(new AstroidBig(), Content, new Vector2(r.Next(0,Window.ClientBounds.Width),r.Next(0,Window.ClientBounds.Height)));
-            director.BuildEnemy();
-            enemy = director.GetEnemy;
+            enemy.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -84,6 +85,9 @@ namespace AstroidsArcadeClone
             GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

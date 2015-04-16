@@ -13,19 +13,21 @@ namespace AstroidsArcadeClone
         protected Texture2D texture;
         private Rectangle[] rectangles;
         protected Vector2 position;
-        private Vector2 origin;
-        private float layer;
+        private Vector2 origin = Vector2.Zero;
+        private float layer = 0;
         protected float scale;
-        private Color color;
-        private SpriteEffects effect;
+        private Color color = Color.White;
+        private SpriteEffects effect = SpriteEffects.None;
         protected Vector2 velocity;
         protected float speed = 100;
-        private int frames;
+        private int frames = 0;
         private int currentIndex;
         private float timeElapsed;
         private float fps = 10;
         private Dictionary<string, Animation> animations = new Dictionary<string,Animation>();
-        
+        private Vector2 offset;
+
+
         public Vector2 Position
         {
             get { return position; }
@@ -49,7 +51,7 @@ namespace AstroidsArcadeClone
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, position, rectangles[currentIndex], color, 0, origin, scale, effect, layer);
+            spriteBatch.Draw(texture, position + offset, rectangles[currentIndex], color, 0, origin, scale, effect, layer);
         }
         public virtual void Update(GameTime gametime)
         {
@@ -66,6 +68,12 @@ namespace AstroidsArcadeClone
         protected void CreateAnimation(string name, int frames, int yPos, int xStartFrame, int width, int height, Vector2 offset, float fps)
         {
             animations.Add(name, new Animation(frames, yPos, xStartFrame, width, height, offset, fps));
+        }
+        protected void PlayAnimation(string name)
+        {
+            rectangles = animations[name].Rectangles;
+            offset = animations[name].Offset;
+            fps = animations[name].Fps;
         }
     }
 }

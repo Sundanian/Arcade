@@ -11,7 +11,7 @@ namespace AstroidsArcadeClone
 {
     class Player : SpriteObject
     {
-        public int lives;
+        public int lives = 3;
         private Player instance = null;
 
         public Player Instance

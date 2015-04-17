@@ -13,6 +13,7 @@ namespace AstroidsArcadeClone
     {
         public int lives = 3;
         static Player instance;
+        private int timer = 0;
 
         public static Player Instance
         {
@@ -33,7 +34,6 @@ namespace AstroidsArcadeClone
         public override void LoadContent(ContentManager content)
         {
             speed = 100;
-            scale = 1;
             Texture = content.Load<Texture2D>(@"Ship");
 
             CreateAnimation("Idle", 1, 0, 1, 128, 128, Vector2.Zero, 1, texture);
@@ -66,8 +66,13 @@ namespace AstroidsArcadeClone
             }
             if (keyState.IsKeyDown(Keys.Space))
             {
-                Space.AddObjects.Add(new Missile(new Vector2(100,100)));
+                if (timer > 10)
+                {
+                    Space.AddObjects.Add(new Missile(position + new Vector2(0,16), this));
+                    timer = 0;
+                }
             }
+            timer++;
         }
         public override void Update(GameTime gametime)
         {

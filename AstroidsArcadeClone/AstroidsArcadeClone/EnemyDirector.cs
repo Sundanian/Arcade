@@ -31,6 +31,7 @@ namespace AstroidsArcadeClone
             enemyBuilder.BuildTexture(content);
             enemyBuilder.BuildWeapon();
             enemyBuilder.BuildPosition(position);
+            enemyBuilder.BuildType();
         }
     }
 }

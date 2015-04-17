@@ -14,7 +14,7 @@ namespace AstroidsArcadeClone
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        static Random r =  new Random();
+        static Random r = new Random();
         private static List<SpriteObject> objects = new List<SpriteObject>();
         private static List<SpriteObject> removeObjects = new List<SpriteObject>();
         private static List<SpriteObject> addObjects = new List<SpriteObject>();
@@ -47,6 +47,7 @@ namespace AstroidsArcadeClone
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Window.AllowUserResizing = true;
+            Window.Title = "AstroidClone by LaiHor Ent.";
             contentMan = Content;
         }
 
@@ -72,19 +73,17 @@ namespace AstroidsArcadeClone
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            
+
 
             // TODO: use this.Content to load your game content here
-            EnemyDirector director = new EnemyDirector(new AstroidBig(), Content, new Vector2(r.Next(0, Window.ClientBounds.Width), r.Next(0, Window.ClientBounds.Height)));
-            director.BuildEnemy();
-            addObjects.Add(director.GetEnemy);
+            for (int i = 0; i < 3; i++)
+            {
+                EnemyDirector director = new EnemyDirector(new AstroidBig(), Content, new Vector2(r.Next(0, Window.ClientBounds.Width), r.Next(0, Window.ClientBounds.Height)));
+                director.BuildEnemy();
+                addObjects.Add(director.GetEnemy);
+            }
 
             addObjects.Add(Player.Instance);
-
-            foreach (SpriteObject obj in addObjects)
-            {
-                obj.LoadContent(Content);
-            }
         }
 
         /// <summary>
@@ -109,6 +108,31 @@ namespace AstroidsArcadeClone
 
             // TODO: Add your update logic here
 
+            int tmpEnemyCount = 0;
+            foreach (SpriteObject obj in objects)
+            {
+                if (obj is Enemy)
+                {
+                    tmpEnemyCount++;
+                }
+            }
+            foreach (SpriteObject obj in addObjects)
+            {
+                if (obj is Enemy)
+                {
+                    tmpEnemyCount++;
+                }
+            }
+            if (tmpEnemyCount == 0)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    EnemyDirector director = new EnemyDirector(new AstroidBig(), Content, new Vector2(r.Next(0, Window.ClientBounds.Width), r.Next(0, Window.ClientBounds.Height)));
+                    director.BuildEnemy();
+                    addObjects.Add(director.GetEnemy);
+                }
+            }
+
             //Holder styr på listerne
             foreach (SpriteObject obj in removeObjects)
             {
@@ -117,6 +141,7 @@ namespace AstroidsArcadeClone
             foreach (SpriteObject obj in addObjects)
             {
                 objects.Add(obj);
+                obj.LoadContent(Content);
             }
             removeObjects.Clear();
             addObjects.Clear();
@@ -128,9 +153,9 @@ namespace AstroidsArcadeClone
             //ScreenWrap
             foreach (SpriteObject obj in objects)
             {
-                if (obj.Position.X  + obj.Texture.Width < 0)
+                if (obj.Position.X + obj.Texture.Width < 0)
                 {
-                    obj.Position = new Vector2(Window.ClientBounds.Width,obj.Position.Y);
+                    obj.Position = new Vector2(Window.ClientBounds.Width, obj.Position.Y);
                 }
                 if (obj.Position.Y + obj.Texture.Height < 0)
                 {

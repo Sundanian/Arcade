@@ -19,13 +19,13 @@ namespace AstroidsArcadeClone
         private Color color = Color.White;
         private SpriteEffects effect = SpriteEffects.None;
         private float rotation = 0;
-        protected Vector2 velocity;
+        protected Vector2 velocity = Vector2.Zero;
         protected float speed = 50;
         private int currentIndex;
         private float timeElapsed;
         private float fps = 10;
         private Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
-        private Vector2 offset;
+        private Vector2 offset = Vector2.Zero;
         private Texture2D boxTexture;
         private string name;
 
@@ -58,7 +58,6 @@ namespace AstroidsArcadeClone
         }
         public virtual void LoadContent(ContentManager content)
         {
-            scale = 1;
             boxTexture = content.Load<Texture2D>(@"CollisionTexture");
         }
         public virtual void Draw(SpriteBatch spriteBatch)
@@ -117,7 +116,7 @@ namespace AstroidsArcadeClone
                     Color colorB = animations[other.name].Colors[other.currentIndex]
                     [(x - CollisionRect.Left) + (y - CollisionRect.Top) * CollisionRect.Width];
 
-                    if (colorA.A !=  0 && colorB.A != 0)
+                    if (colorA.A != 0 && colorB.A != 0)
                     {
                         return true;
                     }
@@ -127,7 +126,7 @@ namespace AstroidsArcadeClone
         }
         protected virtual void HandleCollision()
         {
-            
+
         }
     }
 }

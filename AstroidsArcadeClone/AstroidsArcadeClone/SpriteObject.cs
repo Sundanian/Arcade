@@ -15,7 +15,7 @@ namespace AstroidsArcadeClone
         protected Vector2 position;
         private Vector2 origin = Vector2.Zero;
         private float layer = 0;
-        protected float scale;
+        protected float scale = 1;
         private Color color = Color.White;
         private SpriteEffects effect = SpriteEffects.None;
         private float rotation = 0;
@@ -58,6 +58,7 @@ namespace AstroidsArcadeClone
         }
         public virtual void LoadContent(ContentManager content)
         {
+            scale = 1;
             boxTexture = content.Load<Texture2D>(@"CollisionTexture");
         }
         public virtual void Draw(SpriteBatch spriteBatch)

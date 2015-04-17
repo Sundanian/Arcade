@@ -33,10 +33,11 @@ namespace AstroidsArcadeClone
         public override void LoadContent(ContentManager content)
         {
             speed = 100;
+            scale = 1;
             Texture = content.Load<Texture2D>(@"Ship");
 
-            CreateAnimation("Idle", 1, 0, 2, 128, 128, Vector2.Zero, 1, texture);
-            CreateAnimation("Thrust", 2, 0, 1, 128, 128, Vector2.Zero, 2, texture);
+            CreateAnimation("Idle", 1, 0, 1, 128, 128, Vector2.Zero, 1, texture);
+            CreateAnimation("Thrust", 2, 0, 0, 128, 128, Vector2.Zero, 30, texture);
             PlayAnimation("Idle");
 
             base.LoadContent(content);
@@ -48,6 +49,10 @@ namespace AstroidsArcadeClone
                 //Thrust
                 PlayAnimation("Thrust");
                 velocity += new Vector2(0, -1);
+            }
+            else
+            {
+                PlayAnimation("Idle");
             }
             if (keyState.IsKeyDown(Keys.Left))
             {
@@ -61,7 +66,7 @@ namespace AstroidsArcadeClone
             }
             if (keyState.IsKeyDown(Keys.Space))
             {
-                Space.AddObjects.Add(new Missile(position));
+                Space.AddObjects.Add(new Missile(new Vector2(100,100)));
             }
         }
         public override void Update(GameTime gametime)

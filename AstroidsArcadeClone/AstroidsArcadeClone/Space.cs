@@ -78,13 +78,6 @@ namespace AstroidsArcadeClone
 
 
             // TODO: use this.Content to load your game content here
-            for (int i = 0; i < 3; i++)
-            {
-                EnemyDirector director = new EnemyDirector(new AstroidBig(), Content, new Vector2(r.Next(0, Window.ClientBounds.Width), r.Next(0, Window.ClientBounds.Height)));
-                director.BuildEnemy();
-                addObjects.Add(director.GetEnemy);
-            }
-
             addObjects.Add(Player.Instance);
         }
 
@@ -129,7 +122,17 @@ namespace AstroidsArcadeClone
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    EnemyDirector director = new EnemyDirector(new AstroidBig(), Content, new Vector2(r.Next(0, Window.ClientBounds.Width), r.Next(0, Window.ClientBounds.Height)));
+                    int x = r.Next(0, 2);
+                    int y = r.Next(0, 2);
+                    if (x == 1)
+                    {
+                        x = Window.ClientBounds.Width;
+                    }
+                    if (y == 1)
+                    {
+                        y = Window.ClientBounds.Height;
+                    }
+                    EnemyDirector director = new EnemyDirector(new AstroidBig(), Content, new Vector2(x, y));
                     director.BuildEnemy();
                     addObjects.Add(director.GetEnemy);
                 }

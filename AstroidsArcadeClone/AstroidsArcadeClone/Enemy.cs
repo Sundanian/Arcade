@@ -14,7 +14,7 @@ namespace AstroidsArcadeClone
         private bool weapon;
         private int velocityX;
         private int velocityY;
-        private Random r = new Random();
+        private static Random r = new Random();
         private EnemyType type;
         private int timer = 0;  
 
@@ -56,10 +56,24 @@ namespace AstroidsArcadeClone
 
             base.Update(gametime);
         }
-        public override void LoadContent(Microsoft.Xna.Framework.Content.ContentManager content)
+        public override void LoadContent(ContentManager content)
         {
             velocityX = r.Next(-1, 2);
             velocityY = r.Next(-1, 2);
+            if (velocityX == 0 && velocityY == 0)
+            {
+                velocityX = r.Next(1, 3);
+                if (velocityX == 2)
+                {
+                    velocityX = -1;
+                }
+                velocityY = r.Next(1, 3);
+                if (velocityY == 2)
+                {
+                    velocityY = -1;
+                }
+            }
+
             CreateAnimation("Idle", 1, 0, 0, Texture.Width, Texture.Height, Vector2.Zero, 1, texture);
             PlayAnimation("Idle");
             base.LoadContent(content);
@@ -127,7 +141,7 @@ namespace AstroidsArcadeClone
         }
         public void DeathSpawn()
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 3; i++)
             {
                 if (this.type == EnemyType.AstroidBig)
                 {
@@ -147,12 +161,13 @@ namespace AstroidsArcadeClone
         {
             foreach (SpriteObject obj in Space.Objects)
             {
-                if (obj is Missile && obj.CollisionRect.Intersects(this.CollisionRect))
+                if (obj != this && obj is Missile && obj.CollisionRect.Intersects(this.CollisionRect))
                 {
                     if (PixelCollision(obj))
                     {
                         DeathSpawn();
                         Space.RemoveObjects.Add(this);
+                        Space.RemoveObjects.Add(obj);
                     }
                 }
             }

@@ -21,20 +21,22 @@ namespace AstroidsArcadeClone
             {
                 if (instance == null)
                 {
-                    instance = new Player(Vector2.Zero);
+                    instance = new Player(Vector2.Zero + new Vector2(128, 128));
                 }
                 return instance;
             }
         }
 
-        private Player(Vector2 position) : base(position)
+        private Player(Vector2 position)
+            : base(position)
         {
-            
+
         }
         public override void LoadContent(ContentManager content)
         {
+            frames = 2;
             speed = 100;
-            Texture = content.Load<Texture2D>(@"Ship");
+            texture = content.Load<Texture2D>(@"Ship");
 
             CreateAnimation("Idle", 1, 0, 1, 128, 128, Vector2.Zero, 1, texture);
             CreateAnimation("Thrust", 2, 0, 0, 128, 128, Vector2.Zero, 30, texture);
@@ -48,7 +50,7 @@ namespace AstroidsArcadeClone
             {
                 //Thrust
                 PlayAnimation("Thrust");
-                velocity += new Vector2(0, -1);
+                velocity += new Vector2((float)Math.Sin(rotation), -(float)Math.Cos(rotation));
             }
             else
             {
@@ -57,18 +59,18 @@ namespace AstroidsArcadeClone
             if (keyState.IsKeyDown(Keys.Left))
             {
                 //Rotate Left
-
+                rotation -= 0.05f;
             }
             if (keyState.IsKeyDown(Keys.Right))
             {
                 //Rotate right
-
+                rotation += 0.05f;
             }
             if (keyState.IsKeyDown(Keys.Space))
             {
                 if (timer > 10)
                 {
-                    Space.AddObjects.Add(new Missile(position + new Vector2(0,16), this));
+                    Space.AddObjects.Add(new Missile(position + new Vector2(0, 16), this));
                     timer = 0;
                 }
             }

@@ -11,23 +11,24 @@ namespace AstroidsArcadeClone
     public abstract class SpriteObject
     {
         protected Texture2D texture;
-        private Rectangle[] rectangles;
+        protected Rectangle[] rectangles;
         protected Vector2 position;
-        private Vector2 origin = Vector2.Zero;
+        protected Vector2 origin = Vector2.Zero;
         private float layer = 0;
         protected float scale = 1;
         private Color color = Color.White;
         private SpriteEffects effect = SpriteEffects.None;
-        private float rotation = 0;
+        protected float rotation = 0;
         protected Vector2 velocity = Vector2.Zero;
         protected float speed = 50;
         private int currentIndex;
         private float timeElapsed;
         private float fps = 10;
         private Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
-        private Vector2 offset = Vector2.Zero;
+        protected Vector2 offset = Vector2.Zero;
         private Texture2D boxTexture;
         private string name;
+        protected int frames = 2;
 
         public Texture2D Texture
         {
@@ -40,8 +41,8 @@ namespace AstroidsArcadeClone
             {
                 return new Rectangle
                 (
-                    (int)(position.X + offset.X),
-                    (int)(position.Y + offset.Y),
+                    (int)(position.X + offset.X - texture.Width / frames / 2),
+                    (int)(position.Y + offset.Y - texture.Height / 2),
                     rectangles[0].Width, rectangles[0].Height
                 );
             }
@@ -58,6 +59,8 @@ namespace AstroidsArcadeClone
         }
         public virtual void LoadContent(ContentManager content)
         {
+            origin = new Vector2(texture.Width / frames / 2, texture.Height / 2);
+
             boxTexture = content.Load<Texture2D>(@"CollisionTexture");
         }
         public virtual void Draw(SpriteBatch spriteBatch)

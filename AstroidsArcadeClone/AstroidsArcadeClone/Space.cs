@@ -12,9 +12,9 @@ namespace AstroidsArcadeClone
     /// </summary>
     public class Space : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        static Random r = new Random();
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        private static Random r = new Random();
         private static List<SpriteObject> objects = new List<SpriteObject>();
         private static List<SpriteObject> removeObjects = new List<SpriteObject>();
         private static List<SpriteObject> addObjects = new List<SpriteObject>();
@@ -79,6 +79,7 @@ namespace AstroidsArcadeClone
 
             // TODO: use this.Content to load your game content here
             addObjects.Add(Player.Instance);
+            Player.Instance.Position = new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2);
         }
 
         /// <summary>

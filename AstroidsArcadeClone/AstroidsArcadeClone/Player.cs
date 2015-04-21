@@ -11,17 +11,23 @@ namespace AstroidsArcadeClone
 {
     class Player : SpriteObject
     {
-        public int lives = 3;
+        private int lives = 3;
         static Player instance;
         private int timer = 0;
+        private Vector2 oldVelocity = Vector2.Zero;
 
+        public int Lives
+        {
+            get { return lives; }
+            set { lives = value; }
+        }
         public static Player Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new Player(Vector2.Zero + new Vector2(128, 128));
+                    instance = new Player(new Vector2(500,500));
                 }
                 return instance;
             }
@@ -35,7 +41,7 @@ namespace AstroidsArcadeClone
         public override void LoadContent(ContentManager content)
         {
             Frames = 2;
-            speed = 100;
+            speed = 2;
             texture = content.Load<Texture2D>(@"Ship");
 
             CreateAnimation("Idle", 1, 0, 1, 128, 128, Vector2.Zero, 1, texture);
@@ -78,8 +84,8 @@ namespace AstroidsArcadeClone
         }
         public override void Update(GameTime gametime)
         {
-            velocity = Vector2.Zero;
-
+            velocity.X *= 0.5f;
+            velocity.Y *= 0.5f;
             HandleInput(Keyboard.GetState());
 
             velocity *= speed;
@@ -88,6 +94,7 @@ namespace AstroidsArcadeClone
 
             Position += (velocity * deltatime);
             base.Update(gametime);
+            oldVelocity = velocity;
         }
     }
 }

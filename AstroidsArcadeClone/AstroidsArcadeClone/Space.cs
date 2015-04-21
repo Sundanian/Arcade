@@ -49,6 +49,8 @@ namespace AstroidsArcadeClone
             Window.AllowUserResizing = true;
             Window.Title = "AstroidClone by LaiHor Ent.";
             contentMan = Content;
+            graphics.PreferredBackBufferWidth *= 2;
+            graphics.PreferredBackBufferHeight *= 2;
         }
 
         /// <summary>
@@ -153,21 +155,21 @@ namespace AstroidsArcadeClone
             //ScreenWrap
             foreach (SpriteObject obj in objects)
             {
-                if (obj.Position.X + obj.Texture.Width < 0)
+                if (obj.Position.X + obj.Texture.Width / obj.Frames / 2 < 0)
                 {
-                    obj.Position = new Vector2(Window.ClientBounds.Width, obj.Position.Y);
+                    obj.Position = new Vector2(Window.ClientBounds.Width + obj.Texture.Width / obj.Frames / 2, obj.Position.Y);
                 }
-                if (obj.Position.Y + obj.Texture.Height < 0)
+                if (obj.Position.Y + obj.Texture.Height / 2 < 0)
                 {
-                    obj.Position = new Vector2(obj.Position.X, Window.ClientBounds.Height);
+                    obj.Position = new Vector2(obj.Position.X, Window.ClientBounds.Height + obj.Texture.Height / 2);
                 }
-                if (obj.Position.X > Window.ClientBounds.Width)
+                if (obj.Position.X - obj.Texture.Width / obj.Frames / 2 > Window.ClientBounds.Width)
                 {
-                    obj.Position = new Vector2(0 - obj.Texture.Width, obj.Position.Y);
+                    obj.Position = new Vector2(0 - obj.Texture.Width / obj.Frames / 2, obj.Position.Y);
                 }
-                if (obj.Position.Y > Window.ClientBounds.Height)
+                if (obj.Position.Y - obj.Texture.Height / 2 > Window.ClientBounds.Height)
                 {
-                    obj.Position = new Vector2(obj.Position.X, 0 - obj.Texture.Height);
+                    obj.Position = new Vector2(obj.Position.X, 0 - obj.Texture.Height / 2);
                 }
             }
 

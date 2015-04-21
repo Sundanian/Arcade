@@ -12,6 +12,8 @@ namespace AstroidsArcadeClone
     {
         private Vector2 senderSpawnPos;
         private Vector2 spawn;
+        private float lifetime = 1;
+
         public Missile(Vector2 position, SpriteObject sender) : base(position)
         {
             senderSpawnPos = sender.Position;
@@ -19,7 +21,7 @@ namespace AstroidsArcadeClone
         }
         public override void LoadContent(ContentManager content)
         {
-            speed = 25;
+            speed = 1000;
             Texture = content.Load<Texture2D>(@"Missile");
             CreateAnimation("Idle", 1, 0, 1, 16, 16, Vector2.Zero, 1, texture);
             PlayAnimation("Idle");
@@ -33,6 +35,11 @@ namespace AstroidsArcadeClone
             velocity *= speed;
             float deltatime = (float)gametime.ElapsedGameTime.TotalSeconds;
             position += (velocity * deltatime);
+            lifetime -= (float)gametime.ElapsedGameTime.TotalSeconds;
+            if (lifetime < 0)
+            {
+                Space.RemoveObjects.Add(this);
+            }
 
             base.Update(gametime);
         }

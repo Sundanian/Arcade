@@ -28,8 +28,13 @@ namespace AstroidsArcadeClone
         protected Vector2 offset = Vector2.Zero;
         private Texture2D boxTexture;
         private string name;
-        protected int frames = 2;
+        protected int frames = 1;
 
+        public int Frames
+        {
+            get { return frames; }
+            set { frames = value; }
+        }
         public Texture2D Texture
         {
             get { return texture; }

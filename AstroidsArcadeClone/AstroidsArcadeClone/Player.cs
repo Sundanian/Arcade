@@ -34,7 +34,7 @@ namespace AstroidsArcadeClone
         }
         public override void LoadContent(ContentManager content)
         {
-            frames = 2;
+            Frames = 2;
             speed = 100;
             texture = content.Load<Texture2D>(@"Ship");
 
@@ -68,9 +68,9 @@ namespace AstroidsArcadeClone
             }
             if (keyState.IsKeyDown(Keys.Space))
             {
-                if (timer > 10)
+                if (timer > 20)
                 {
-                    Space.AddObjects.Add(new Missile(position + new Vector2(0, 16), this));
+                    Space.AddObjects.Add(new Missile(position + new Vector2(-(float)Math.Sin(rotation), (float)Math.Cos(rotation)), this));
                     timer = 0;
                 }
             }

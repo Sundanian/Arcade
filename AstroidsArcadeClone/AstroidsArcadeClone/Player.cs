@@ -126,6 +126,10 @@ namespace AstroidsArcadeClone
                             {
                                 lives -= 1;
                                 invinsible = true;
+                                for (int i = 0; i < 9; i++)
+                                {
+                                    Space.AddObjects.Add(new Partikle(position));
+                                }
                                 position = new Vector2(Space.Gamewindow.ClientBounds.Width / 2, Space.Gamewindow.ClientBounds.Height / 2);
                                 velocity = Vector2.Zero;
                                 Space.RemoveObjects.Add(obj);
@@ -139,7 +143,12 @@ namespace AstroidsArcadeClone
                         {
                             lives -= 1;
                             invinsible = true;
-                            position = new Vector2(500, 500);
+                            for (int i = 0; i < 9; i++)
+                            {
+                                Space.AddObjects.Add(new Partikle(position));
+                            }
+                            position = new Vector2(Space.Gamewindow.ClientBounds.Width / 2, Space.Gamewindow.ClientBounds.Height / 2);
+                            velocity = Vector2.Zero;
                             Space.RemoveObjects.Add(obj);
                             (obj as Enemy).DeathSpawn();
                         } 

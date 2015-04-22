@@ -27,7 +27,7 @@ namespace AstroidsArcadeClone
         }
         public void BuildScale()
         {
-            this.enemy.Scale = 1;
+            this.enemy.Scale = 0.5f;
         }
         public void BuildWeapon()
         {

@@ -152,6 +152,27 @@ namespace AstroidsArcadeClone
         }
         public void DeathSpawn()
         {
+            //Score
+            switch (type)
+            {
+                case EnemyType.AstroidBig:
+                    Space.Score += 20;
+                    break;
+                case EnemyType.AstroidNormal:
+                    Space.Score += 50;
+                    break;
+                case EnemyType.AstroidSmall:
+                    Space.Score += 100;
+                    break;
+                case EnemyType.UFONormal:
+                    Space.Score += 200;
+                    break;
+                case EnemyType.UFOSmall:
+                    Space.Score += 1000;
+                    break;
+                default:
+                    break;
+            }
             for (int i = 0; i < 3; i++)
             {
                 //Hvis en stor eller mellem asteroid dør så skal de spawne størrelsen mindre
@@ -166,6 +187,10 @@ namespace AstroidsArcadeClone
                     EnemyDirector director = new EnemyDirector(new AstroidSmall(), Space.ContentMan, position);
                     director.BuildEnemy();
                     Space.AddObjects.Add(director.GetEnemy);
+                }
+                for (int j = 0; j < 3; j++)
+                {
+                    Space.AddObjects.Add(new Partikle(position));
                 }
             }
         }

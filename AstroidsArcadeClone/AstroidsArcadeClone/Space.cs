@@ -22,6 +22,7 @@ namespace AstroidsArcadeClone
         private static GameWindow gamewindow;
         private static int score = 0;
         private SpriteFont sf;
+        private float timer = 50;
 
         public static int Score
         {
@@ -153,6 +154,37 @@ namespace AstroidsArcadeClone
                     EnemyDirector director = new EnemyDirector(new AstroidBig(), Content, new Vector2(x, y));
                     director.BuildEnemy();
                     addObjects.Add(director.GetEnemy);
+                }
+            }
+
+            //Random UFO spawn
+            timer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (timer < 0)
+            {
+                timer = 50;
+                int x = r.Next(0, 2);
+                int y = r.Next(0, 2);
+                if (x == 1)
+                {
+                    x = Window.ClientBounds.Width;
+                }
+                if (y == 1)
+                {
+                    y = Window.ClientBounds.Height;
+                }
+                switch (r.Next(0, 3))
+                {
+                    case 0:
+                        EnemyDirector director = new EnemyDirector(new UFOSmall(), Content, new Vector2(x, y));
+                        director.BuildEnemy();
+                        addObjects.Add(director.GetEnemy);
+                        break;
+
+                    default:
+                        EnemyDirector director2 = new EnemyDirector(new UFONormal(), Content, new Vector2(x, y));
+                        director2.BuildEnemy();
+                        addObjects.Add(director2.GetEnemy);
+                        break;
                 }
             }
 

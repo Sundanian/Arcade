@@ -154,7 +154,7 @@ namespace AstroidsArcadeClone
                     Space.Score += 100;
                     break;
                 case EnemyType.UFONormal:
-                    Space.Score += 300;
+                    Space.Score += 200;
                     break;
                 case EnemyType.UFOSmall:
                     Space.Score += 1000;

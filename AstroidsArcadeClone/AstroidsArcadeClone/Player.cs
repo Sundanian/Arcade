@@ -15,6 +15,8 @@ namespace AstroidsArcadeClone
         static Player instance;
         private int timer = 0;
         private Vector2 oldVelocity = Vector2.Zero;
+        private bool invinsible = false;
+        private float invinsibleTimer = 0;
 
         public int Lives
         {
@@ -92,9 +94,59 @@ namespace AstroidsArcadeClone
 
             float deltatime = (float)gametime.ElapsedGameTime.TotalSeconds;
 
+            if (invinsible == true)
+            {
+                invinsibleTimer += deltatime;
+                if (invinsibleTimer > 2)
+                {
+                    invinsible = false;
+                    invinsibleTimer = 0;
+                }
+            }
+
             Position += (velocity * deltatime);
             base.Update(gametime);
             oldVelocity = velocity;
+            if (lives == 0)
+            {
+                Space.RemoveObjects.Add(this);
+            }
+        }
+        protected override void HandleCollision()
+        {
+            foreach (SpriteObject obj in Space.Objects)
+            {
+                if (obj != this && obj is Enemy && obj.CollisionRect.Intersects(this.CollisionRect))
+                {
+                    try
+                    {
+                        if (PixelCollision(obj))
+                        {
+                            if (invinsible == false)
+                            {
+                                lives -= 1;
+                                invinsible = true;
+                                position = new Vector2(Space.Gamewindow.ClientBounds.Width / 2, Space.Gamewindow.ClientBounds.Height / 2);
+                                velocity = Vector2.Zero;
+                                Space.RemoveObjects.Add(obj);
+                                (obj as Enemy).DeathSpawn();
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        if (invinsible == false)
+                        {
+                            lives -= 1;
+                            invinsible = true;
+                            position = new Vector2(500, 500);
+                            Space.RemoveObjects.Add(obj);
+                            (obj as Enemy).DeathSpawn();
+                        } 
+                    }
+                }
+            }
+            base.HandleCollision();
         }
     }
 }

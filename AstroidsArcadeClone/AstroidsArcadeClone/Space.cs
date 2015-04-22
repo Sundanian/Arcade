@@ -143,7 +143,7 @@ namespace AstroidsArcadeClone
                     {
                         y = Window.ClientBounds.Height;
                     }
-                    EnemyDirector director = new EnemyDirector(new AstroidBig(), Content, new Vector2(x, y));
+                    EnemyDirector director = new EnemyDirector(new UFONormal(), Content, new Vector2(x, y));
                     director.BuildEnemy();
                     addObjects.Add(director.GetEnemy);
                 }

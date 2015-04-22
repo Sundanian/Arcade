@@ -17,6 +17,7 @@ namespace AstroidsArcadeClone
         private static Random r = new Random();
         private EnemyType type;
         private int timer = 0;
+        private int timer2 = 0;
 
         public EnemyType Type
         {
@@ -53,6 +54,7 @@ namespace AstroidsArcadeClone
             position += (velocity * deltatime);
 
             Move();
+            Shoot();
 
             base.Update(gametime);
         }
@@ -128,14 +130,25 @@ namespace AstroidsArcadeClone
                 }
                 timer++; 
             }
-            if (timer == 30) //når timeren er 30 skal ufo'en også skyde
-                    {
-                        Space.AddObjects.Add(new Missile(position + new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y), this, false));
-                    }
-            if (timer == 40) //når timeren er 40 bliver den resat og ufo'en får en ny retning
+                if (timer == 30) //når timeren er 30 bliver den resat og ufo'en får en ny retning
                 {
                     timer = 0;
                 }
+        }
+        public void Shoot()
+        {
+            if (this.Type == EnemyType.UFONormal || this.Type == EnemyType.UFOSmall) //sikre sig at astroids ikke skyder
+            {
+                if (timer2 == 40) //når timeren er 20 skal ufo'en også skyde
+                {
+                    Space.AddObjects.Add(new Missile(position + new Vector2(10,10), this));
+                }
+                timer2++;
+            }
+            if (timer2 == 60)
+            {
+                timer2 = 0;
+            }
         }
         public void DeathSpawn()
         {

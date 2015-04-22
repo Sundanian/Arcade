@@ -78,7 +78,7 @@ namespace AstroidsArcadeClone
             {
                 if (timer > 20)
                 {
-                    Space.AddObjects.Add(new Missile(position + new Vector2(-(float)Math.Sin(rotation), (float)Math.Cos(rotation)), this, true));
+                    Space.AddObjects.Add(new Missile(position + new Vector2(-(float)Math.Sin(rotation), (float)Math.Cos(rotation)), this));
                     timer = 0;
                 }
             }

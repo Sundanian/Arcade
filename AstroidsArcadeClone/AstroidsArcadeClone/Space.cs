@@ -20,7 +20,14 @@ namespace AstroidsArcadeClone
         private static List<SpriteObject> addObjects = new List<SpriteObject>();
         private static ContentManager contentMan;
         private static GameWindow gamewindow;
+        private static int score = 0;
+        private SpriteFont sf;
 
+        public static int Score
+        {
+            get { return score; }
+            set { score = value; }
+        }
         public static GameWindow Gamewindow
         {
             get { return gamewindow; }
@@ -81,7 +88,7 @@ namespace AstroidsArcadeClone
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            sf = Content.Load<SpriteFont>("MyFont");
 
 
             // TODO: use this.Content to load your game content here
@@ -161,13 +168,13 @@ namespace AstroidsArcadeClone
             {
                 case 3:
                     addObjects.Add(new Life(new Vector2(64, 64)));
-                    addObjects.Add(new Life(new Vector2(64+128, 64)));
-                    addObjects.Add(new Life(new Vector2(64+128 * 2, 64)));
+                    addObjects.Add(new Life(new Vector2(64 + 128, 64)));
+                    addObjects.Add(new Life(new Vector2(64 + 128 * 2, 64)));
                     break;
 
                 case 2:
                     addObjects.Add(new Life(new Vector2(64, 64)));
-                    addObjects.Add(new Life(new Vector2(64+128, 64)));
+                    addObjects.Add(new Life(new Vector2(64 + 128, 64)));
                     break;
 
                 case 1:
@@ -234,6 +241,11 @@ namespace AstroidsArcadeClone
             foreach (SpriteObject obj in objects)
             {
                 obj.Draw(spriteBatch);
+            }
+            spriteBatch.DrawString(sf, "Score: " + score, new Vector2(0, 128), Color.White);
+            if (Player.Instance.Lives == 0)
+            {
+                spriteBatch.DrawString(sf, "Game Over!", new Vector2(0, 64), Color.White);
             }
             spriteBatch.End();
 

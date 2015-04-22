@@ -13,8 +13,9 @@ namespace AstroidsArcadeClone
         private Vector2 senderSpawnPos;
         private Vector2 spawn;
         private float lifetime = 1;
+        public bool playerMissile;
 
-        public Missile(Vector2 position, SpriteObject sender) : base(position)
+        public Missile(Vector2 position, SpriteObject sender, bool playerMissle) : base(position)
         {
             senderSpawnPos = sender.Position;
             spawn = position;

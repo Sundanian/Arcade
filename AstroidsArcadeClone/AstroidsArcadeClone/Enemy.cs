@@ -16,7 +16,7 @@ namespace AstroidsArcadeClone
         private int velocityY;
         private static Random r = new Random();
         private EnemyType type;
-        private int timer = 0;  
+        private int timer = 0;
 
         public EnemyType Type
         {
@@ -58,6 +58,7 @@ namespace AstroidsArcadeClone
         }
         public override void LoadContent(ContentManager content)
         {
+            //Her giver vi vores enemies movement fra start af
             velocityX = r.Next(-1, 2);
             velocityY = r.Next(-1, 2);
             if (velocityX == 0 && velocityY == 0)
@@ -74,17 +75,17 @@ namespace AstroidsArcadeClone
                 }
             }
 
-            CreateAnimation("Idle", 1, 0, 0, Texture.Width, Texture.Height, Vector2.Zero, 1, texture);
-            PlayAnimation("Idle");
+            CreateAnimation("Idle", 1, 0, 0, Texture.Width, Texture.Height, Vector2.Zero, 1, texture); //Laver spriten til enemies, da de alle sammen kun er i en frame
+            PlayAnimation("Idle"); //og får så den "animation" til at spille når de bliver skabt
             base.LoadContent(content);
         }
         public virtual void Move()
         {
-            if (this.Type == EnemyType.UFONormal || this.Type == EnemyType.UFOSmall)
+            if (this.Type == EnemyType.UFONormal || this.Type == EnemyType.UFOSmall) //sørger for det kun er ufo'er der får den movement
             {
-                if (timer == 0)
+                if (timer == 0) // når timeren er lig med nul skal den bestemme ny movement
                 {
-                    switch (r.Next(1, 10))
+                    switch (r.Next(1, 10)) //random som skal afgøre retningen
                     {
                         case 1:
                             this.velocityX = -1;
@@ -120,21 +121,18 @@ namespace AstroidsArcadeClone
                         case 10:
                             timer++;
                             break;
-                        //case 11:
-                        //    timer++;
-                        //    break;
-                        //case 12:
-                        //    timer++;
-                        //    break;
                         default:
                             break;
                     }
                     
                 }
-                timer++;
-
+                timer++; 
             }
-            if (timer == 30)
+            if (timer == 30) //når timeren er 30 skal ufo'en også skyde
+                    {
+                        Space.AddObjects.Add(new Missile(position + new Vector2(Player.Instance.Position.X, Player.Instance.Position.Y), this, false));
+                    }
+            if (timer == 40) //når timeren er 40 bliver den resat og ufo'en får en ny retning
                 {
                     timer = 0;
                 }
@@ -143,6 +141,7 @@ namespace AstroidsArcadeClone
         {
             for (int i = 0; i < 3; i++)
             {
+                //Hvis en stor eller mellem asteroid dør så skal de spawne størrelsen mindre
                 if (this.type == EnemyType.AstroidBig)
                 {
                     EnemyDirector director = new EnemyDirector(new AstroidNormal(), Space.ContentMan, position);
@@ -161,15 +160,16 @@ namespace AstroidsArcadeClone
         {
             foreach (SpriteObject obj in Space.Objects)
             {
-                if (obj != this && obj is Missile && obj.CollisionRect.Intersects(this.CollisionRect))
-                {
-                    if (PixelCollision(obj))
+                    if (obj != this && obj is Missile && obj.CollisionRect.Intersects(this.CollisionRect))
                     {
-                        DeathSpawn();
-                        Space.RemoveObjects.Add(this);
-                        Space.RemoveObjects.Add(obj);
+                        if (PixelCollision(obj))
+                        {
+                            DeathSpawn();
+                            Space.RemoveObjects.Add(this);
+                            Space.RemoveObjects.Add(obj);
+                        }
                     }
-                }
+                
             }
         }
     }

@@ -11,17 +11,25 @@ namespace AstroidsArcadeClone
 {
     class Player : SpriteObject
     {
-        public int lives = 3;
+        private int lives = 3;
         static Player instance;
         private int timer = 0;
+        private Vector2 oldVelocity = Vector2.Zero;
+        private bool invinsible = false;
+        private float invinsibleTimer = 0;
 
+        public int Lives
+        {
+            get { return lives; }
+            set { lives = value; }
+        }
         public static Player Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new Player(Vector2.Zero + new Vector2(128, 128));
+                    instance = new Player(new Vector2(500,500));
                 }
                 return instance;
             }
@@ -35,7 +43,7 @@ namespace AstroidsArcadeClone
         public override void LoadContent(ContentManager content)
         {
             Frames = 2;
-            speed = 100;
+            speed = 2;
             texture = content.Load<Texture2D>(@"Ship");
 
             CreateAnimation("Idle", 1, 0, 1, 128, 128, Vector2.Zero, 1, texture);
@@ -78,16 +86,67 @@ namespace AstroidsArcadeClone
         }
         public override void Update(GameTime gametime)
         {
-            velocity = Vector2.Zero;
-
+            velocity.X *= 0.5f;
+            velocity.Y *= 0.5f;
             HandleInput(Keyboard.GetState());
 
             velocity *= speed;
 
             float deltatime = (float)gametime.ElapsedGameTime.TotalSeconds;
 
+            if (invinsible == true)
+            {
+                invinsibleTimer += deltatime;
+                if (invinsibleTimer > 2)
+                {
+                    invinsible = false;
+                    invinsibleTimer = 0;
+                }
+            }
+
             Position += (velocity * deltatime);
             base.Update(gametime);
+            oldVelocity = velocity;
+            if (lives == 0)
+            {
+                Space.RemoveObjects.Add(this);
+            }
+        }
+        protected override void HandleCollision()
+        {
+            foreach (SpriteObject obj in Space.Objects)
+            {
+                if (obj != this && obj is Enemy && obj.CollisionRect.Intersects(this.CollisionRect))
+                {
+                    try
+                    {
+                        if (PixelCollision(obj))
+                        {
+                            if (invinsible == false)
+                            {
+                                lives -= 1;
+                                invinsible = true;
+                                position = new Vector2(Space.Gamewindow.ClientBounds.Width / 2, Space.Gamewindow.ClientBounds.Height / 2);
+                                velocity = Vector2.Zero;
+                                Space.RemoveObjects.Add(obj);
+                                (obj as Enemy).DeathSpawn();
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        if (invinsible == false)
+                        {
+                            lives -= 1;
+                            invinsible = true;
+                            position = new Vector2(500, 500);
+                            Space.RemoveObjects.Add(obj);
+                            (obj as Enemy).DeathSpawn();
+                        } 
+                    }
+                }
+            }
+            base.HandleCollision();
         }
     }
 }

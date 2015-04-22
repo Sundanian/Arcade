@@ -12,14 +12,20 @@ namespace AstroidsArcadeClone
     /// </summary>
     public class Space : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        static Random r = new Random();
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        private static Random r = new Random();
         private static List<SpriteObject> objects = new List<SpriteObject>();
         private static List<SpriteObject> removeObjects = new List<SpriteObject>();
         private static List<SpriteObject> addObjects = new List<SpriteObject>();
         private static ContentManager contentMan;
+        private static GameWindow gamewindow;
 
+        public static GameWindow Gamewindow
+        {
+            get { return gamewindow; }
+            set { gamewindow = value; }
+        }
         public static ContentManager ContentMan
         {
             get { return contentMan; }
@@ -51,6 +57,7 @@ namespace AstroidsArcadeClone
             contentMan = Content;
             graphics.PreferredBackBufferWidth *= 2;
             graphics.PreferredBackBufferHeight *= 2;
+            gamewindow = Window;
         }
 
         /// <summary>
@@ -79,6 +86,7 @@ namespace AstroidsArcadeClone
 
             // TODO: use this.Content to load your game content here
             addObjects.Add(Player.Instance);
+            Player.Instance.Position = new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2);
         }
 
         /// <summary>
@@ -100,9 +108,12 @@ namespace AstroidsArcadeClone
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-
             // TODO: Add your update logic here
 
+            //Resetter Player.Instance position ved død.
+
+
+            //Respawn af astroids
             int tmpEnemyCount = 0;
             foreach (SpriteObject obj in objects)
             {
@@ -138,6 +149,35 @@ namespace AstroidsArcadeClone
                 }
             }
 
+            //Ordner liv
+            foreach (SpriteObject obj in objects)
+            {
+                if (obj is Life)
+                {
+                    removeObjects.Add(obj);
+                }
+            }
+            switch (Player.Instance.Lives)
+            {
+                case 3:
+                    addObjects.Add(new Life(new Vector2(64, 64)));
+                    addObjects.Add(new Life(new Vector2(64+128, 64)));
+                    addObjects.Add(new Life(new Vector2(64+128 * 2, 64)));
+                    break;
+
+                case 2:
+                    addObjects.Add(new Life(new Vector2(64, 64)));
+                    addObjects.Add(new Life(new Vector2(64+128, 64)));
+                    break;
+
+                case 1:
+                    addObjects.Add(new Life(new Vector2(64, 64)));
+                    break;
+
+                default:
+                    break;
+            }
+
             //Holder styr på listerne
             foreach (SpriteObject obj in removeObjects)
             {
@@ -154,6 +194,7 @@ namespace AstroidsArcadeClone
             {
                 obj.Update(gameTime);
             }
+
 
             //ScreenWrap
             foreach (SpriteObject obj in objects)

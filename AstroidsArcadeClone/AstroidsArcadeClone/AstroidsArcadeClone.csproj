@@ -45,6 +45,7 @@
     <Compile Include="Enemy.cs" />
     <Compile Include="IEnemyBuilder.cs" />
     <Compile Include="EnemyDirector.cs" />
+    <Compile Include="Life.cs" />
     <Compile Include="Missile.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Space.cs" />

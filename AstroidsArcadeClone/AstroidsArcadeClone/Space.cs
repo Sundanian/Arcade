@@ -22,7 +22,7 @@ namespace AstroidsArcadeClone
         private static GameWindow gamewindow;
         private static int score = 0;
         private SpriteFont sf;
-        private float timer = 50;
+        private float timer = 25;
 
         public static int Score
         {
@@ -127,14 +127,20 @@ namespace AstroidsArcadeClone
             {
                 if (obj is Enemy)
                 {
-                    tmpEnemyCount++;
+                    if ((obj as Enemy).Type == EnemyType.AstroidBig || (obj as Enemy).Type == EnemyType.AstroidNormal || (obj as Enemy).Type == EnemyType.AstroidSmall)
+                    {
+                        tmpEnemyCount++;
+                    }
                 }
             }
             foreach (SpriteObject obj in addObjects)
             {
                 if (obj is Enemy)
                 {
-                    tmpEnemyCount++;
+                    if ((obj as Enemy).Type == EnemyType.AstroidBig || (obj as Enemy).Type == EnemyType.AstroidNormal || (obj as Enemy).Type == EnemyType.AstroidSmall)
+                    {
+                        tmpEnemyCount++;
+                    }
                 }
             }
             if (tmpEnemyCount == 0)
@@ -161,7 +167,7 @@ namespace AstroidsArcadeClone
             timer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (timer < 0)
             {
-                timer = 50;
+                timer = 25;
                 int x = r.Next(0, 2);
                 int y = r.Next(0, 2);
                 if (x == 1)
@@ -232,28 +238,6 @@ namespace AstroidsArcadeClone
             foreach (SpriteObject obj in objects)
             {
                 obj.Update(gameTime);
-            }
-
-
-            //ScreenWrap
-            foreach (SpriteObject obj in objects)
-            {
-                if (obj.Position.X + obj.Texture.Width / obj.Frames / 2 < 0)
-                {
-                    obj.Position = new Vector2(Window.ClientBounds.Width + obj.Texture.Width / obj.Frames / 2, obj.Position.Y);
-                }
-                if (obj.Position.Y + obj.Texture.Height / 2 < 0)
-                {
-                    obj.Position = new Vector2(obj.Position.X, Window.ClientBounds.Height + obj.Texture.Height / 2);
-                }
-                if (obj.Position.X - obj.Texture.Width / obj.Frames / 2 > Window.ClientBounds.Width)
-                {
-                    obj.Position = new Vector2(0 - obj.Texture.Width / obj.Frames / 2, obj.Position.Y);
-                }
-                if (obj.Position.Y - obj.Texture.Height / 2 > Window.ClientBounds.Height)
-                {
-                    obj.Position = new Vector2(obj.Position.X, 0 - obj.Texture.Height / 2);
-                }
             }
 
             base.Update(gameTime);

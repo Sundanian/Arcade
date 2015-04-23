@@ -116,6 +116,7 @@ namespace AstroidsArcadeClone
         {
             foreach (SpriteObject obj in Space.Objects)
             {
+                #region enemy
                 if (obj != this && obj is Enemy && obj.CollisionRect.Intersects(this.CollisionRect))
                 {
                     try
@@ -151,9 +152,51 @@ namespace AstroidsArcadeClone
                             velocity = Vector2.Zero;
                             Space.RemoveObjects.Add(obj);
                             (obj as Enemy).DeathSpawn();
-                        } 
+                        }
                     }
                 }
+                #endregion
+                #region missile
+                if (obj != this && obj is Missile && obj.CollisionRect.Intersects(this.CollisionRect) && !(obj as Missile).PlayerMissile)
+                {
+                    try
+                    {
+                        if (PixelCollision(obj))
+                        {
+                            if (invinsible == false)
+                            {
+                                lives -= 1;
+                                invinsible = true;
+                                for (int i = 0; i < 9; i++)
+                                {
+                                    Space.AddObjects.Add(new Partikle(position));
+                                }
+                                position = new Vector2(Space.Gamewindow.ClientBounds.Width / 2, Space.Gamewindow.ClientBounds.Height / 2);
+                                velocity = Vector2.Zero;
+                                Space.RemoveObjects.Add(obj);
+                                (obj as Enemy).DeathSpawn();
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        if (invinsible == false)
+                        {
+                            lives -= 1;
+                            invinsible = true;
+                            for (int i = 0; i < 9; i++)
+                            {
+                                Space.AddObjects.Add(new Partikle(position));
+                            }
+                            position = new Vector2(Space.Gamewindow.ClientBounds.Width / 2, Space.Gamewindow.ClientBounds.Height / 2);
+                            velocity = Vector2.Zero;
+                            Space.RemoveObjects.Add(obj);
+                            (obj as Enemy).DeathSpawn();
+                        }
+                    }
+                }
+                #endregion
+
             }
             base.HandleCollision();
         }

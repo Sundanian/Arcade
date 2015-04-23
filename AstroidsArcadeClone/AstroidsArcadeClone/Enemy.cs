@@ -16,7 +16,7 @@ namespace AstroidsArcadeClone
         private int velocityY;
         private static Random r = new Random();
         private EnemyType type;
-        private int timer = 0;  
+        private int timer = 0;
 
         public EnemyType Type
         {
@@ -74,6 +74,19 @@ namespace AstroidsArcadeClone
                 }
             }
 
+            //Sørger for at UFO altid bevæger sig ad yaksen. x bliver bestemt i move()
+            if (this.Type == EnemyType.UFONormal || this.Type == EnemyType.UFOSmall)
+            {
+                if (velocityX == 0)
+                {
+                    velocityX = r.Next(1, 3);
+                    if (velocityX == 2)
+                    {
+                        velocityX = -1;
+                    }
+                }
+            }
+
             CreateAnimation("Idle", 1, 0, 0, Texture.Width, Texture.Height, Vector2.Zero, 1, texture);
             PlayAnimation("Idle");
             base.LoadContent(content);
@@ -83,61 +96,43 @@ namespace AstroidsArcadeClone
             if (this.Type == EnemyType.UFONormal || this.Type == EnemyType.UFOSmall)
             {
                 if (timer == 0)
-                {
-                    switch (r.Next(1, 10))
+                {   
+                    switch (r.Next(1, 6))
                     {
                         case 1:
-                            this.velocityX = -1;
-                            timer++;
-                            break;
-                        case 2:
-                            timer++;
-                            break;
-                        case 3:
-                            this.velocityX = 1;
-                            timer++;
-                            break;
-                        case 4:
-                            timer++;
-                            break;
-                        case 5:
                             this.velocityY = -1;
                             timer++;
                             break;
-                        case 6:
-                            timer++;
-                            break;
-                        case 7:
+                        case 2:
                             this.velocityY = 1;
                             timer++;
                             break;
-                        case 8:
-                            timer++;
+                        case 3:
+                            //Skud
+
+                            //Finder to "punkter"
+                            Vector2 p = Player.Instance.Position;
+                            Vector2 q = position;
+                            //Finder en vektor imellem
+                            Vector2 v = q - p;
+                            //Finder den faktor der skal ganges med for at længen af v = 1
+                            double z = 1 / (Math.Sqrt(Math.Pow(v.X, 2) + Math.Pow(v.Y, 2)));
+                            //Bruger faktoren, således at vores vektor er 1 lang
+                            Vector2 v1 = new Vector2(v.X * (float)z, v.Y * (float)z);
+                            //Laver et missile med en position en fra UFOen i retning imod playeren.
+                            Space.AddObjects.Add(new Missile(position + v1, this));
                             break;
-                        case 9:
-                            timer++;
-                            break;
-                        case 10:
-                            timer++;
-                            break;
-                        //case 11:
-                        //    timer++;
-                        //    break;
-                        //case 12:
-                        //    timer++;
-                        //    break;
                         default:
+                            timer++;
                             break;
                     }
-                    
                 }
                 timer++;
-
             }
             if (timer == 30)
-                {
-                    timer = 0;
-                }
+            {
+                timer = 0;
+            }
         }
         public void DeathSpawn()
         {
@@ -190,9 +185,18 @@ namespace AstroidsArcadeClone
                 {
                     if (PixelCollision(obj))
                     {
-                        DeathSpawn();
-                        Space.RemoveObjects.Add(this);
-                        Space.RemoveObjects.Add(obj);
+                        if (!(type == EnemyType.UFONormal || type == EnemyType.UFOSmall))
+                        {
+                            DeathSpawn();
+                            Space.RemoveObjects.Add(this);
+                            Space.RemoveObjects.Add(obj);
+                        }
+                        else if ((obj as Missile).PlayerMissile)
+                        {
+                            DeathSpawn();
+                            Space.RemoveObjects.Add(this);
+                            Space.RemoveObjects.Add(obj);
+                        }
                     }
                 }
             }

@@ -96,6 +96,24 @@ namespace AstroidsArcadeClone
                 currentIndex = 0;
             }
             HandleCollision();
+
+            //ScreenWrap
+            if (Position.X + Texture.Width / Frames / 2 < 0)
+            {
+                Position = new Vector2(Space.Gamewindow.ClientBounds.Width + Texture.Width / Frames / 2, Position.Y);
+            }
+            if (Position.Y + Texture.Height / 2 < 0)
+            {
+                Position = new Vector2(Position.X, Space.Gamewindow.ClientBounds.Height + Texture.Height / 2);
+            }
+            if (Position.X - Texture.Width / Frames / 2 > Space.Gamewindow.ClientBounds.Width)
+            {
+                Position = new Vector2(0 - Texture.Width / Frames / 2, Position.Y);
+            }
+            if (Position.Y - Texture.Height / 2 > Space.Gamewindow.ClientBounds.Height)
+            {
+                Position = new Vector2(Position.X, 0 - Texture.Height / 2);
+            }
         }
         protected void CreateAnimation(string name, int frames, int yPos, int xStartFrame, int width, int height, Vector2 offset, float fps, Texture2D texture)
         {

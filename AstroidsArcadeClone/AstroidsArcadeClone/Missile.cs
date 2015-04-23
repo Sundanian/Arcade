@@ -12,16 +12,27 @@ namespace AstroidsArcadeClone
     {
         private Vector2 senderSpawnPos;
         private Vector2 spawn;
-        private float lifetime = 1;
+        private float lifetime = 2;
+        private bool playerMissile = false;
+
+        public bool PlayerMissile
+        {
+            get { return playerMissile; }
+            set { playerMissile = value; }
+        }
 
         public Missile(Vector2 position, SpriteObject sender) : base(position)
         {
+            if (sender is Player)
+            {
+                playerMissile = true;
+            }
             senderSpawnPos = sender.Position;
             spawn = position;
         }
         public override void LoadContent(ContentManager content)
         {
-            speed = 1000;
+            speed = 500;
             Texture = content.Load<Texture2D>(@"Missile");
             CreateAnimation("Idle", 1, 0, 1, 16, 16, Vector2.Zero, 1, texture);
             PlayAnimation("Idle");

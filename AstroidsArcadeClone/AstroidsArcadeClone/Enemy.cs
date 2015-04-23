@@ -23,8 +23,6 @@ namespace AstroidsArcadeClone
         private SoundEffect effect3;
         private SoundEffect effect4;
         private SoundEffect effect5;
-        private int soundTimer = 0;
-        private int soundTimer2 = 0;
 
         public EnemyType Type
         {
@@ -63,30 +61,11 @@ namespace AstroidsArcadeClone
             Move();
             if (type == EnemyType.UFONormal)
             {
-                if (soundTimer == 0)
-                {
-                    effect4.Play();
-                    soundTimer++;
-                }
-                soundTimer++;
-                if (soundTimer == 12)
-                {
-                    soundTimer = 0;
-                }
+                effect4.Play();
             }
             else if (type == EnemyType.UFOSmall)
             {
-                if (soundTimer2 == 0)
-                {
-                    effect5.Play();
-                    soundTimer2++;
-                }
-                soundTimer2++;
-                if (soundTimer2 == 12)
-                {
-                    soundTimer2 = 0;
-                }
-
+                effect5.Play();
             }
             base.Update(gametime);
         }
@@ -230,11 +209,11 @@ namespace AstroidsArcadeClone
                             {
                                effect.Play(); 
                             }
-                            else if (this.type == EnemyType.AstroidNormal || this.type == EnemyType.UFONormal)
+                            else if (this.type == EnemyType.AstroidNormal)
                             {
                                 effect2.Play();
                             }
-                            else if (this.type == EnemyType.AstroidSmall || this.type == EnemyType.UFOSmall)
+                            else if (this.type == EnemyType.AstroidSmall)
                             {
                                 effect3.Play();
                             }

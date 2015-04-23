@@ -26,6 +26,7 @@ namespace AstroidsArcadeClone
         private float timer = 50;
         private int timer2 = 0;
         private SoundEffect effect;
+        private SoundEffect effect2;
 
         public static int Score
         {
@@ -95,6 +96,7 @@ namespace AstroidsArcadeClone
             sf = Content.Load<SpriteFont>("MyFont");
 
             effect = Content.Load<SoundEffect>("beat1");
+            effect2 = Content.Load<SoundEffect>("Beat2");
 
             // TODO: use this.Content to load your game content here
             addObjects.Add(Player.Instance);
@@ -102,9 +104,14 @@ namespace AstroidsArcadeClone
         }
         private void music()
         {
-            if (timer2 == 0 || timer2 == 40)
+            if (timer2 == 0)
             {
                 effect.Play();
+                timer2++;
+            }
+            if (timer2 == 40)
+            {
+                effect2.Play();
                 timer2++;
             }
             if (timer2 == 80)

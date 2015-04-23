@@ -20,6 +20,8 @@ namespace AstroidsArcadeClone
         private float invinsibleTimer = 0;
         private SoundEffect effect;
         private SoundEffect effect2;
+        private SoundEffect effect3;
+        private int soundTimer = 0;
 
         public int Lives
         {
@@ -47,6 +49,7 @@ namespace AstroidsArcadeClone
         {
             effect = content.Load<SoundEffect>("fire");
             effect2 = content.Load<SoundEffect>("thrust");
+            effect3 = content.Load<SoundEffect>("bangSmall");
 
             Frames = 2;
             speed = 2;
@@ -65,7 +68,16 @@ namespace AstroidsArcadeClone
                 //Thrust
                 PlayAnimation("Thrust");
                 velocity += new Vector2((float)Math.Sin(rotation), -(float)Math.Cos(rotation));
-                effect2.Play();
+                if (soundTimer == 0)
+                {
+                  effect2.Play(); 
+                    soundTimer++;
+                }
+                soundTimer++;
+                if (soundTimer == 15)
+                {
+                    soundTimer = 0;
+                }
             }
             else
             {
@@ -132,6 +144,7 @@ namespace AstroidsArcadeClone
                         {
                             if (invinsible == false)
                             {
+                                effect3.Play();
                                 lives -= 1;
                                 invinsible = true;
                                 for (int i = 0; i < 9; i++)

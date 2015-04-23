@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -17,6 +18,8 @@ namespace AstroidsArcadeClone
         private Vector2 oldVelocity = Vector2.Zero;
         private bool invinsible = false;
         private float invinsibleTimer = 0;
+        private SoundEffect effect;
+        private SoundEffect effect2;
 
         public int Lives
         {
@@ -42,6 +45,9 @@ namespace AstroidsArcadeClone
         }
         public override void LoadContent(ContentManager content)
         {
+            effect = content.Load<SoundEffect>("fire");
+            effect2 = content.Load<SoundEffect>("thrust");
+
             Frames = 2;
             speed = 2;
             texture = content.Load<Texture2D>(@"Ship");
@@ -59,6 +65,7 @@ namespace AstroidsArcadeClone
                 //Thrust
                 PlayAnimation("Thrust");
                 velocity += new Vector2((float)Math.Sin(rotation), -(float)Math.Cos(rotation));
+                effect2.Play();
             }
             else
             {
@@ -78,6 +85,7 @@ namespace AstroidsArcadeClone
             {
                 if (timer > 20)
                 {
+                    effect.Play();
                     Space.AddObjects.Add(new Missile(position + new Vector2(-(float)Math.Sin(rotation), (float)Math.Cos(rotation)), this));
                     timer = 0;
                 }

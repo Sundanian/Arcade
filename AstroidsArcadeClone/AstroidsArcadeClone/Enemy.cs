@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -17,7 +18,11 @@ namespace AstroidsArcadeClone
         private static Random r = new Random();
         private EnemyType type;
         private int timer = 0;
-        private int timer2 = 0;
+        private SoundEffect effect;
+        private SoundEffect effect2;
+        private SoundEffect effect3;
+        private SoundEffect effect4;
+        private SoundEffect effect5;
 
         public EnemyType Type
         {
@@ -54,8 +59,14 @@ namespace AstroidsArcadeClone
             position += (velocity * deltatime);
 
             Move();
-            Shoot();
-
+            if (type == EnemyType.UFONormal)
+            {
+                effect4.Play();
+            }
+            else if (type == EnemyType.UFOSmall)
+            {
+                effect5.Play();
+            }
             base.Update(gametime);
         }
         public override void LoadContent(ContentManager content)
@@ -79,6 +90,13 @@ namespace AstroidsArcadeClone
 
             CreateAnimation("Idle", 1, 0, 0, Texture.Width, Texture.Height, Vector2.Zero, 1, texture); //Laver spriten til enemies, da de alle sammen kun er i en frame
             PlayAnimation("Idle"); //og får så den "animation" til at spille når de bliver skabt
+
+            effect = content.Load<SoundEffect>("bangLarge");
+            effect2 = content.Load<SoundEffect>("bangMedium");
+            effect3 = content.Load<SoundEffect>("bangSmall");
+            effect4 = content.Load<SoundEffect>("saucerBig");
+            effect5 = content.Load<SoundEffect>("saucerSmall");
+
             base.LoadContent(content);
         }
         public virtual void Move()
@@ -135,21 +153,6 @@ namespace AstroidsArcadeClone
                     timer = 0;
                 }
         }
-        public void Shoot()
-        {
-            if (this.Type == EnemyType.UFONormal || this.Type == EnemyType.UFOSmall) //sikre sig at astroids ikke skyder
-            {
-                if (timer2 == 40) //når timeren er 20 skal ufo'en også skyde
-                {
-                    Space.AddObjects.Add(new Missile(position + new Vector2(10,10), this));
-                }
-                timer2++;
-            }
-            if (timer2 == 60)
-            {
-                timer2 = 0;
-            }
-        }
         public void DeathSpawn()
         {
             //Score
@@ -202,6 +205,18 @@ namespace AstroidsArcadeClone
                     {
                         if (PixelCollision(obj))
                         {
+                            if (this.type == EnemyType.AstroidBig)
+                            {
+                               effect.Play(); 
+                            }
+                            else if (this.type == EnemyType.AstroidNormal)
+                            {
+                                effect2.Play();
+                            }
+                            else if (this.type == EnemyType.AstroidSmall)
+                            {
+                                effect3.Play();
+                            }
                             DeathSpawn();
                             Space.RemoveObjects.Add(this);
                             Space.RemoveObjects.Add(obj);

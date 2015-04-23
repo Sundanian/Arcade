@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -23,6 +24,8 @@ namespace AstroidsArcadeClone
         private static int score = 0;
         private SpriteFont sf;
         private float timer = 50;
+        private int timer2 = 0;
+        private SoundEffect effect;
 
         public static int Score
         {
@@ -91,12 +94,25 @@ namespace AstroidsArcadeClone
             spriteBatch = new SpriteBatch(GraphicsDevice);
             sf = Content.Load<SpriteFont>("MyFont");
 
+            effect = Content.Load<SoundEffect>("beat1");
 
             // TODO: use this.Content to load your game content here
             addObjects.Add(Player.Instance);
             Player.Instance.Position = new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2);
         }
-
+        private void music()
+        {
+            if (timer2 == 0 || timer2 == 40)
+            {
+                effect.Play();
+                timer2++;
+            }
+            if (timer2 == 80)
+            {
+                timer2 = 0;
+            }
+            timer2++;
+        }
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
@@ -116,6 +132,7 @@ namespace AstroidsArcadeClone
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            music();
             // TODO: Add your update logic here
 
             //Resetter Player.Instance position ved død.
@@ -151,7 +168,7 @@ namespace AstroidsArcadeClone
                     {
                         y = Window.ClientBounds.Height;
                     }
-                    EnemyDirector director = new EnemyDirector(new UFONormal(), Content, new Vector2(x, y));
+                    EnemyDirector director = new EnemyDirector(new AstroidNormal(), Content, new Vector2(x, y));
                     director.BuildEnemy();
                     addObjects.Add(director.GetEnemy);
                 }

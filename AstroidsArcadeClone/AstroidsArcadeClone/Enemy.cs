@@ -23,6 +23,8 @@ namespace AstroidsArcadeClone
         private SoundEffect effect3;
         private SoundEffect effect4;
         private SoundEffect effect5;
+        private int soundTimer = 0;
+        private int soundTimer2 = 0;
 
         public EnemyType Type
         {
@@ -59,14 +61,35 @@ namespace AstroidsArcadeClone
             position += (velocity * deltatime);
 
             Move();
+
             if (type == EnemyType.UFONormal)
             {
-                effect4.Play();
+                if (soundTimer == 0)
+                {
+                    effect4.Play();
+                    soundTimer++;
+                }
+                soundTimer++;
+                if (soundTimer == 12)
+                {
+                    soundTimer = 0;
+                }
             }
             else if (type == EnemyType.UFOSmall)
             {
-                effect5.Play();
+                if (soundTimer2 == 0)
+                {
+                    effect5.Play();
+                    soundTimer2++;
+                }
+                soundTimer2++;
+                if (soundTimer2 == 12)
+                {
+                    soundTimer2 = 0;
+                }
+
             }
+
             base.Update(gametime);
         }
         public override void LoadContent(ContentManager content)
@@ -209,11 +232,11 @@ namespace AstroidsArcadeClone
                             {
                                effect.Play(); 
                             }
-                            else if (this.type == EnemyType.AstroidNormal)
+                            else if (this.type == EnemyType.AstroidNormal || this.type == EnemyType.UFONormal)
                             {
                                 effect2.Play();
                             }
-                            else if (this.type == EnemyType.AstroidSmall)
+                            else if (this.type == EnemyType.AstroidSmall || this.type == EnemyType.UFOSmall)
                             {
                                 effect3.Play();
                             }
